@@ -87,7 +87,7 @@ body.showCart .cont{
 }
 
 
-@media screen and (max-width:476px){
+@media screen and (max-width:530px){
     .productlist{
         grid-template-columns:1fr;
     }
@@ -217,7 +217,6 @@ body.showCart  .cartTab{
 {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-   
 }
 
 .cartTab .btns button{
