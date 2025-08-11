@@ -64,8 +64,8 @@ body.showCart .cont{
     font-size: .9em;
 }
 
-/* PRODUT LIST */
 
+/* PRODUT LIST */
 .productlist
 {
     display: grid;
@@ -85,7 +85,6 @@ body.showCart .cont{
         grid-template-columns:repeat(2, 1fr);
     }
 }
-
 
 @media screen and (max-width:530px){
     .productlist{
@@ -118,17 +117,48 @@ body.showCart .cont{
     font-weight: 300;
     font-size: small;
 }
-
 .productlist button.addtocart{
     background-color: #0009;
     color: white;
     padding: 10px 25px;
     border-radius: 20px;
-    margin-top: 10px;
+    margin: 10px auto 0px;
     border: none;
     cursor: pointer;
     transition:all .5s  ease;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+
+    & span {
+        transition: .3s ease-in-out;
+        pointer-events: none;
+    }
+
+
+    & span:nth-child(1){
+        position: relative;
+    }
 }
+.productlist button.addtocart:hover span:nth-child(1){
+    left: -5px;
+}
+
+.productlist button.addtocart span:nth-child(2){
+   position: absolute;
+   transform: translateX(80px);
+}
+
+.productlist button.addtocart:hover span:nth-child(2){
+   transform: translateX(45px);
+}
+
+
+
+
+
 
 
 /* SHOPPING CART */
@@ -185,12 +215,15 @@ body.showCart  .cartTab{
 
 .listCart .product .thumnail img{width: 100%;padding: 2px;}
 
+.listCart .product .name{
+    font-size: 15px;
+    font-weight: 300;
+}
 
-.listCart .product .name,
 .listCart .product .totalPrice
 {
-    font-size: 400;
-} 
+    font-size: 700;
+}  
 
 .listCart .product .quantity span 
 {
