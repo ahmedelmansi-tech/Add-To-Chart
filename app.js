@@ -18,22 +18,6 @@ let card = [];
 
 window.addEventListener("DOMContentLoaded", appinit);
 
-// plusBtn.addEventListener("click" , ()=>{
-//     log("+")
-// })
-// minusBtn.addEventListener("click" , ()=>{
-//     log("-")
-// })
-
-// asideCartTab.addEventListener("click" , (e)=>{
-//     let positionClicked = e.target
-
-//     if (positionClicked.classList.contains("plus")){
-//         log("+", positionClicked.parentElement.parentElement.dataset.id)
-//     } else if (positionClicked.classList.contains("minus"))
-//     log("-", log(positionClicked.parentElement.parentElement.dataset.id))
-// })
-
 function appinit() {
   shoppingIcon.addEventListener("click", () => {
     body.classList.toggle("showCart");
@@ -76,11 +60,6 @@ function appinit() {
     }
   });
 
-  // Storing Data in LocalStorage
-  const storeData = () => {
-    localStorage.setItem("card", JSON.stringify(card));
-  };
-
   addToCart = (_id) => {
     let productPositionInCard = card.findIndex((val) => val.id == _id);
 
@@ -101,26 +80,25 @@ function appinit() {
     }
 
     // log(card)
-    handelProductTotal(card.length);
+
     addPurchasedProductToCartHtml();
     storeData();
   };
 
-  let handelProductTotal = (total) => {
-    purshasecProducts.innerHTML = total;
-  };
+  // Total Purshase Products
+  // let handelProductTotal = (total) => {
+  //   purshasecProducts.innerHTML = total;
+  // };
 
   let addPurchasedProductToCartHtml = () => {
-    log(card);
+    // log(card);
     asideCartTab.innerHTML = "";
     if (card.length > 0) {
       card.forEach((product) => {
         let productPosition = ProductList.findIndex(
           (val) => product.id == val.id
         );
-
         let moreInfo = ProductList[productPosition];
-        log(moreInfo);
 
         let newProduct = document.createElement("div");
         newProduct.classList.add("product");
@@ -145,8 +123,14 @@ function appinit() {
                 </div>
             `;
         asideCartTab.appendChild(newProduct);
+        purshasecProducts.innerHTML = card.length;
       });
     }
+  };
+
+  // Storing Data in LocalStorage
+  const storeData = () => {
+    localStorage.setItem("card", JSON.stringify(card));
   };
 
   // Fetchng Data From JSON File
@@ -159,7 +143,45 @@ function appinit() {
       if (localStorage.getItem("card")) {
         card = JSON.parse(localStorage.getItem("card"));
         addPurchasedProductToCartHtml();
-        handelProductTotal(card.length);
+        // handelProductTotal(card.length);
       }
     });
+
+  asideCartTab.addEventListener("click", (e) => {
+    let positionClicked = e.target;
+
+    if (positionClicked.classList.contains("plus")) {
+      const productIncreaseId =
+        positionClicked.parentElement.parentElement.dataset.id;
+
+      const proIncreaseIndex = card.findIndex(
+        (whatId) => whatId.id == productIncreaseId
+      );
+
+      card[proIncreaseIndex].q = card[proIncreaseIndex].q + 1;
+      // log(
+      //   `id > ${productIncreaseId} \n index > ${proIncreaseIndex} \n ${JSON.stringify(
+      //     card[proIncreaseIndex]
+      //   )}`
+      // );
+      addPurchasedProductToCartHtml();
+      storeData();
+    } else if (positionClicked.classList.contains("minus")) {
+      const productDecreaseId =
+        positionClicked.parentElement.parentElement.dataset.id;
+
+      const proDecraeseIndex = card.findIndex(
+        (whatId) => whatId.id == productDecreaseId
+      );
+      card[proDecraeseIndex].q = card[proDecraeseIndex].q - 1;
+
+      if (card[proDecraeseIndex].q === 0) {
+        card.splice(proDecraeseIndex, 1);
+        purshasecProducts.innerHTML = card.length;
+      }
+
+      addPurchasedProductToCartHtml();
+      storeData();
+    }
+  });
 }
